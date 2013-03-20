@@ -1,0 +1,48 @@
+{
+  "manifest_version": 2,
+
+  "name": "ACGINDEX for Bangumi",
+  "description": "*థ౪థ 液！",
+  "version": "1.3",
+
+  "permissions": [
+  	"tabs",
+    "storage",
+    "http://bgm.tv/",
+    "http://acgindex.us/"
+  ],
+  "background" : {
+    "scripts": ["js/background.js"]
+  },
+  "page_action": {
+    "default_icon": "image/icon.jpg",
+    "default_title": "ACGINDEX for Bangumi",
+    "default_popup": "about.html"
+  },
+  "icons":{
+  	"16": "image/icon.jpg",
+  	"48":"image/icon.jpg",
+  	"128":"image/icon.jpg"
+  },
+  "content_scripts":[{
+  	"matches":[
+  		"http://bgm.tv/",
+  		"http://bangumi.tv/",
+  		"http://chii.in/",
+      "http://bgm.tv/subject/*",
+      "http://bangumi.tv/subject/*",
+      "http://chii.in/subject/*"
+  	],
+  	"js":[
+  		"js/zepto.min.js",
+      "js/utility.js",
+  		"js/main.js"
+  	],
+  	"run_at": "document_idle"
+  }],
+  "web_accessible_resources":[
+  	"image/*",
+  	"acgindex_link.css"
+  ],
+  "update_url": "http://plugin.acgindex.us/chrome-ext-update.xml"
+}
