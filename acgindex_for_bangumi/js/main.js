@@ -11,7 +11,6 @@ var storage = chrome.storage.local;
 var tip = {
 	RESOURCE_FOUND     : '获取完毕 (<ゝω·)',
 	RESOURCE_NOT_FOUND : '找不到资源 （；´д｀）',
-
 	RESOURCE_NEED_LOGIN: '似乎需要登录才能观看 (・∀・)'
 }
 
@@ -169,7 +168,7 @@ function ajax_get_resource(){
 			// parseInt('')会搞出一个NaN对象没法判断...
 			var data_int = 0;
 			if(data == '') data_int = -1;
-			data_int = parseInt(data);
+			else data_int = parseInt(data);
 
 			var return_msg = '';
 
