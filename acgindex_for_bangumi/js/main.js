@@ -139,10 +139,10 @@ function ajax_get_resource(){
 		'error': function(xhr, errorType, error){
 			// xhr.status == 0 表示超时
 			switch(xhr.status){
-				case 0   : var msg = '请求超时'; break;
-				case 404 : var msg = '奇怪，连接不到数据库...请休息一会再试试'; break;
-				case 500 : var msg = '遇到了无法理解的问题...ぐめなさい！ >_<'; break;
-				default  : var msg = '遇到了无法理解的问题... ' + xhr.status;
+				case 0   : var msg = '0 - 请求超时'; break;
+				case 404 : var msg = '404 - 无法连接上数据库'; break;
+				case 500 : var msg = '500 - 目录娘身体不舒服 QAQ'; break;
+				default  : var msg = '? - 遇到了无法理解的问题... ' + xhr.status;
 			}
 			console.log(xhr.status);
 			self.removeClass('acgindex_loading').addClass('acgindex_msg_active acgindex_error acgindex_disabled')
