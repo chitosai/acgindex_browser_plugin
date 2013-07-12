@@ -32,10 +32,13 @@
 #acgindex_bili{
 	background: url('image/bili.ico');
 }
+#acgindex_bt{
+	background: url('image/ktxp.ico'); 
+}
 
 #acgindex_link a{
 	display: inline-block;
-	margin-top: 5px;
+	margin: 5px 5px 0 0;
 	text-indent: -9999px;
 	opacity: .6;
 	width: 16px;

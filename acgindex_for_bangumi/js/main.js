@@ -47,7 +47,16 @@ function insert_acgindex_link(){
 		'source': 'bili',
 		'href'  : '*థ౪థ 液！',
 		'target': '_blank',
-	}).text("bili").appendTo(acgindex_link);
+	}).text('bili').appendTo(acgindex_link);
+
+	// 插入bt链接
+	$('<a>').attr({
+		'id'    : 'acgindex_bt',
+		'title' : 'BT下载',
+		'source': 'bt',
+		'href'  : '*థ౪థ 液！',
+		'target': '_blank'
+	}).text('BT').appendTo(acgindex_link);
 
 	acgindex_link.appendTo(acgindex);
 
@@ -203,7 +212,7 @@ function ajax_get_resource(){
 			}
 			// 异常状态
 			else {
-				switch(data) {
+				switch(data_int) {
 					case -10 : return_msg = '发出的参数有误，不要随意改动参数哦'; break;
 					case -20 : 
 					case -30 : return_msg = '查询数据库时出错 : ' + data; break;
