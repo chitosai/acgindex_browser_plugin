@@ -34,8 +34,9 @@
       "http://chii.in/subject/*"
   	],
   	"js":[
-  		"js/zepto.min.js",
+  		"js/jquery.min.js",
       "js/utility.js",
+      "js/data.js",
   		"js/main.js"
   	],
   	"run_at": "document_idle"
