@@ -25,11 +25,10 @@ var utility = {
 		}
 		var mbox = $('#acgindex_msg'), text_len = msg.length;
 		mbox.text(msg).css({
-
 			'left': (275-mbox.width())/2 + 'px' 
 		}).attr('class', flag);
 	},
-	hide_msg : function(immediately) {
+	hide_msg : function( immediately ) {
 		utility.hide_msg_timeout = setTimeout(function(){
 			$('#acgindex_msg').attr('class', '');
 		}, (immediately === true ? 1 : utility.hide_msg_delay));

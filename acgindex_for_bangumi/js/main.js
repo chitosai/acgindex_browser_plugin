@@ -84,7 +84,7 @@ function bind_event(){
 	acgindex_link.on('click', 'a', data.get);
 	// 悬浮提示
 	acgindex_link.on('mouseenter', '.acgindex_msg_active', utility.show_msg)
-				 .on('mouseleave', '.acgindex_msg_active', utility.hide_msg);
+				 .on('mouseleave', '.acgindex_msg_active', function() { utility.hide_msg(true); } );
 }
 
 // Run
