@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', init);
 
-function init(){
+function init() {
 	// 显示缓存占用空间
 	chrome.storage.local.getBytesInUse( null, function(BytesInUse) {
-		document.getElementById('storage-usage').innerHTML = BytesInUse/1000 + 'k';
+		document.getElementById('storage-usage').innerHTML = BytesInUse/1000 + 'kb';
 	});
 
 	// 清空缓存
