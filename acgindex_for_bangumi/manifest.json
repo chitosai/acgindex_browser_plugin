@@ -3,14 +3,13 @@
 
   "name": "ACGINDEX for Bangumi",
   "description": "*థ౪థ 液！",
-  "version": "1.4",
+  "version": "1.40",
 
   "permissions": [
   	"tabs",
     "storage",
     "http://bgm.tv/",
-    "http://acgindex.us/",
-    "http://127.0.0.1/"
+    "http://acgindex.us/"
   ],
   "background" : {
     "scripts": ["js/background.js"]
