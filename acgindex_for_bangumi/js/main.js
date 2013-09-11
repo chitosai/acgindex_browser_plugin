@@ -22,10 +22,11 @@ var sources = {
 		'source': 'bili',
 		'link'  : 'http://www.bilibili.tv/video/av'
 	},
-	'ktxp':{
+	'bt':{
 		'id'    : 'bt',
 		'title' : 'BT下载',
-		'source': 'bt'
+		'source': 'bt',
+		'link'  : 'http://bt.ktxp.com'
 	}
 }
 

@@ -95,7 +95,7 @@ var data = {
                 // xhr.status == 0 表示超时
                 switch(xhr.status){
                     case 0   : var msg = '0 - 请求超时'; break;
-                    case 404 : var msg = '404 - 无法连接上数据库'; break;
+                    case 404 : var msg = '404 - 连接不上目录娘'; break;
                     case 500 : var msg = '500 - 目录娘身体不舒服 QAQ'; break;
                     default  : var msg = '? - 遇到了无法理解的问题... ' + xhr.status;
                 }
@@ -109,34 +109,25 @@ var data = {
                 utility.show_msg( msg );
                 utility.hide_msg();
             },
-            'success': function(original_data, status, xhr) {
+            'success': function(raw, status, xhr) {
                 // 移除loading动画
                 self.removeClass('acgindex_loading');
 
-                // 先处理是否需要登录，把头给拿掉
-                var need_login = false,
-                    data = original_data;
-                if( data[0] == 'x' ) {
-                    need_login = true;
-                    data = data.substr(1);
-                }
-
-                // parseInt('')会搞出一个NaN对象没法判断...
-                var data_int = 0;
-                if( data == '' ) data_int = -1;
-                else data_int = parseInt(data);
-
-                var return_msg = '';
+                // 解析json
+                var data = JSON.parse(raw),
+                    value = data['value'],
+                    return_msg = '';
 
                 // 处理正常情况
-                if( data_int >= -1 ) {
-                    if( data_int == -1 ) {
+                if( data['status'] == 'OK' ) {
+
+                    if( value == '' || value == '-1' ) {
                         // 没有找到资源
                         self.addClass('acgindex_msg_active acgindex_disabled').data('msg', tip.RESOURCE_NOT_FOUND);
                         return_msg = tip.RESOURCE_NOT_FOUND;
                     } else {
                         // 找到了资源的情况
-                        var url = sources[source].link + data;
+                        var url = sources[source].link + value;
 
                         self.attr({
                             'href'   : url,
@@ -145,23 +136,21 @@ var data = {
                         return_msg = tip.RESOURCE_FOUND;
 
                         // 附上需要登录提示
-                        if( need_login ) 
+                        if( source == 'bili' && value[0] == 'x' ) 
                             self.addClass('acgindex_msg_active').data('msg', tip.RESOURCE_NEED_LOGIN);
                     }
                     // 正常状态可以保存下来
                     var obj = {};
-                    obj[self.data('ep-unique') + ':' + source] = original_data; 
+                    obj[self.data('ep-unique') + ':' + source] = value; 
                     storage.set( obj, function() {
                         console.log(obj, '已保存到本地');
                     });
                     
                 } else {
                     // 异常状态
-                    switch(data_int) {
+                    switch( value ) {
                         case -10 : return_msg = '发出的参数有误，不要随意改动参数哦'; break;
-                        case -20 : 
-                        case -30 : return_msg = '查询数据库时出错 : ' + data; break;
-                        default  : return_msg = '收到了不正常的回复 Σ( °Д °) : ' + data; break;
+                        default  : return_msg = '收到了不正常的回复 Σ( °Д °) : ' + value; break;
                     }
                     self.addClass('acgindex_msg_active acgindex_error').data('msg', return_msg);
                 }
