@@ -149,10 +149,11 @@ var data = {
                 } else {
                     // 异常状态
                     switch( value ) {
-                        case -10 : return_msg = '发出的参数有误，不要随意改动参数哦'; break;
-                        default  : return_msg = '收到了不正常的回复 Σ( °Д °) : ' + value; break;
+                        case '-10' : return_msg = '发出的参数有误，不要随意改动参数哦'; break;
+                        case '-20' : return_msg = '点的太快目录娘会受不了的啦 >_<'; break;
+                        default    : return_msg = '收到了不正常的回复 Σ( °Д °) : ' + value; break;
                     }
-                    self.addClass('acgindex_msg_active acgindex_error').data('msg', return_msg);
+                    self.addClass('acgindex_msg_active acgindex_error').data('msg', value);
                 }
 
                 utility.enable_ext();
