@@ -3,7 +3,7 @@
 
   "name": "ACGINDEX for Bangumi",
   "description": "*థ౪థ 液！",
-  "version": "1.41",
+  "version": "1.42",
 
   "permissions": [
   	"tabs",
@@ -45,5 +45,5 @@
   	"image/*",
   	"acgindex_link.css"
   ],
-  "update_url": "http://plugin.acgindex.us/chrome-ext-update.xml"
+  "update_url": "http://clients2.google.com/service/update2/crx"
 }
