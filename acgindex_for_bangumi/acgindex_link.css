@@ -1,10 +1,24 @@
-#acgindex{
+#acgindex_anime{
 	background: #f7f7f7;
 	border-top: 1px solid #eee;
 	margin-top: 5px;
 	padding: 5px 10px;
 	position: relative;
 }
+#acgindex_music{
+	padding: 0 15px 10px;
+	margin-top: -3px;
+}
+#acgindex_music #acgindex_link span{
+	line-height: 16px;
+	margin-right: 6px;
+	vertical-align: top;
+}
+#acgindex_music #acgindex_link a{
+	margin: 0 3px 0 0;
+}
+
+
 #acgindex_about_link{
 	float: right;
 	color: #aaa;
@@ -35,8 +49,20 @@
 #acgindex_bt{
 	background: url('image/ktxp.ico'); 
 }
+#acgindex_moefm{
+	background: url('image/moefm.png');
+	margin-right: 2px !important;
+}
+#acgindex_xiami{
+	background: url('image/xiami.png');
+}
+#acgindex_baidu{
+	background: url('image/baidu.png');
+}
 
 #acgindex_link a{
+	background-position: center;
+	background-repeat: no-repeat;
 	display: inline-block;
 	margin: 5px 5px 0 0;
 	text-indent: -9999px;

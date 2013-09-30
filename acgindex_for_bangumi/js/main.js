@@ -30,8 +30,11 @@ var sources = {
 	}
 }
 
-// 插入样式表
-function insert_acgindex_stylesheet(){
+/*
+ * 插入扩展样式
+ * 
+ */
+function insert_acgindex_stylesheet() {
 	$('<link>').attr({
 		'rel': 'stylesheet', 
 		'type': 'text/css', 
@@ -39,10 +42,13 @@ function insert_acgindex_stylesheet(){
 	}).appendTo($('head'));
 }
 
-// 在cluetip浮层里加入我们的链接
-function insert_acgindex_link(){
+/*
+ * 插入动画资源链接
+ * 
+ */
+function insert_resource_anime() {
 	// 生成获取视频地址链接
-	acgindex = $('<div id="acgindex">');
+	acgindex = $('<div id="acgindex_anime">');
 
 	// 加入about信息
 	$('<p id="acgindex_about">').text('相关资源').append(
@@ -76,9 +82,11 @@ function insert_acgindex_link(){
 	// 把获取地址的链接插入cluetip悬浮层
 	$('#cluetip-outer').append(acgindex);
 }
-
-// 初始化事件绑定
-function bind_event(){
+/*
+ * 初始化动画资源的获取事件
+ * 
+ */
+function bind_event_anime() {
 	// 番组表的hover时读取本地数据
 	$('.prg_list, .subject_prg ul').on('mouseenter', 'li', data.local);
 	// 获取资源链接点击事件
@@ -88,8 +96,62 @@ function bind_event(){
 				 .on('mouseleave', '.acgindex_msg_active', function() { utility.hide_msg(true); } );
 }
 
+/*
+ * 插入音乐资源链接
+ * 
+ */
+function insert_resource_music() {
+	// 判断是否是音乐页面
+	if( $('#navMenuNeue .focus').attr('href') != '/music' )
+		return false;
+
+	// 插入链接
+	acgindex = $('<div id="acgindex_music">');
+	// 资源链接所在div
+	acgindex_link = $('<div id="acgindex_link">');
+	$('<span>').text('试听：').appendTo(acgindex_link);
+
+	// 准备数据
+	var music_title = $('.nameSingle a').text();
+
+	// 萌否电台链接
+	var moefm_link = $('<a>').attr({
+		'id'     : 'acgindex_moefm',
+		'href'   : 'http://moe.fm/search/direct?title=' + encodeURIComponent(music_title),
+		'target' : '_blank',
+		'class'  : 'acgindex_real_url',
+		'title'  : '萌否电台'
+	}).appendTo(acgindex_link);
+
+	// 虾米链接
+	var xiami_link = $('<a>').attr({
+		'id'     : 'acgindex_xiami',
+		'href'   : "http://www.xiami.com/search/find?album=" + encodeURIComponent(music_title),
+		'target' : '_blank',
+		'class'  : 'acgindex_real_url',
+		'title'  : '虾米'
+	}).appendTo(acgindex_link);
+
+	// 百度
+	var baidu_link = $('<a>').attr({
+		'id'     : 'acgindex_baidu',
+		'href'   : "http://music.baidu.com/search?key=" + encodeURIComponent(music_title),
+		'target' : '_blank',
+		'class'  : 'acgindex_real_url',
+		'title'  : '百度音乐'
+	}).appendTo(acgindex_link);
+
+	// 插入！
+	acgindex.append(acgindex_link);
+	$('.nameSingle').after(acgindex);
+}
+
 // Run
 insert_acgindex_stylesheet();
-insert_acgindex_link()
 
-bind_event()
+// 插入资源图片/链接等
+insert_resource_anime();
+insert_resource_music();
+
+// 绑定相关事件
+bind_event_anime();
