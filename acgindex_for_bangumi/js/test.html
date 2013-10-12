@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="jquery.min.js"></script>
+</head>
+<body>
+    <script>
+    $.get('a.html', function(html){
+        var pattern = /loc = \"(.+?)\"/g;
+        var matchs = pattern.exec(html);
+        console.log(matchs);
+        if( matchs ) {
+            console.log(matchs[1])
+        }
+    })
+    </script>
+</body>
+</html>

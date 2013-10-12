@@ -24,25 +24,29 @@ var SOURCES = {
     'music_album': {
         'moefm' : {
                 'title'  : '萌否电台',
-                'url'    : 'http://moe.fm/search/direct?title=',
+                'url'    : 'http://moe.fm/search?q=',
+                'api'    : 'http://moe.fm/search/direct?api=json&listen=1&bgm_id=',
         },
         'xiami' : {
                 'title'  : '虾米',
-                'url'    : "http://www.xiami.com/search/find?album=",
+                'url'    : 'http://www.xiami.com/search/find?album=',
+                'api'    : 'http://www.xiami.com/search/find?album='
         },
     },
     'music_single': {
         'moefm' : {
                 'title'  : '萌否电台',
                 'url'    : 'http://moe.fm/search/song?q=',
+                'api'    : 'http://moe.fm/search/direct?api=json&listen=1&title=',
         },
         'xiami' : {
                 'title'  : '虾米',
-                'url'    : "http://www.xiami.com/search/find?song=",
+                'url'    : 'http://www.xiami.com/search/find?song=',
+                'api'    : 'http://www.xiami.com/search/find?song='
         },
         'baidu' : {
                 'title'  : '百度音乐',
-                'url'    : "http://music.baidu.com/search?key=",
+                'url'    : 'http://music.baidu.com/search?key=',
         }
     }   
 }

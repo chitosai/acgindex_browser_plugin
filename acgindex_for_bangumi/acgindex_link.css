@@ -58,7 +58,6 @@
 }
 .acgindex_link .acgindex_disabled,
 .acgindex_link .acgindex_global_disabled{
-	cursor: not-allowed;
 	opacity: .3;
 }
 

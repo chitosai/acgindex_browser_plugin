@@ -9,7 +9,10 @@
   	"tabs",
     "storage",
     "http://bgm.tv/",
-    "http://acgindex.us/"
+    "http://acgindex.us/",
+    "http://www.xiami.com/",
+    "http://music.baidu.com/",
+    "http://moe.fm/"
   ],
   "background" : {
     "scripts": ["js/background.js"]
