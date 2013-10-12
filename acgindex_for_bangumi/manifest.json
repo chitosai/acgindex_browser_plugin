@@ -35,8 +35,10 @@
   	],
   	"js":[
   		"js/jquery.min.js",
+      "js/define.js",
       "js/utility.js",
       "js/anime.js",
+      "js/music.js",
   		"js/main.js"
   	],
   	"run_at": "document_idle"

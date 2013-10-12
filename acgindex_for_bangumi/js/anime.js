@@ -4,10 +4,74 @@
  */
 var ANIME = {
     /*
-     * 当用户hover在某个li上时，读取被选中的ep的本地数据
+     * 初始化!!!
      * 
      */
     'init' : function() {
+        ANIME.init_dom();
+        ANIME.init_event();
+    },
+
+    /*
+     * 插入资源链接
+     * 
+     */
+    'init_dom' : function() {
+        // 生成获取视频地址链接
+        acgindex = $('<div> id="acgindex_anime">');
+
+        // 加入about信息
+        $('<p id="acgindex_about">').text('相关资源').append(
+            $('<a>').text('Powered by ACGINDEX.US').attr({
+                'id'    : 'acgindex_about_link',
+                'target': '_blank',
+                'href'  : 'http://acgindex.us/'
+            })
+        ).appendTo(acgindex);
+
+        // 资源链接所在div
+        acgindex_link = $('<div id="acgindex_link">');
+
+        // 创建资源链接
+        var source;
+        for(key in sources) {
+            source = sources[key];
+            $('<a>').attr({
+                'id'    : 'acgindex_' + source.id,
+                'title' : source.title,
+                'source': source.source,
+                'href'  : '*థ౪థ 液！',
+                'target': '_blank',
+            }).text('*థ౪థ 液！').appendTo(acgindex_link);
+        }
+        acgindex_link.appendTo(acgindex);
+
+        // 插一个消息提示层
+        $('<p id="acgindex_msg">').appendTo(acgindex);
+
+        // 把获取地址的链接插入cluetip悬浮层
+        $('#cluetip-outer').append(acgindex);
+    },
+
+    /*
+     * 初始化事件
+     * 
+     */
+    'init_event' : function() {
+        // 番组表的hover时读取本地数据
+        $('.prg_list, .subject_prg ul').on('mouseenter', 'li', ANIME.local);
+        // 获取资源链接点击事件
+        acgindex_link.on('click', 'a', ANIME.get);
+        // 悬浮提示
+        acgindex_link.on('mouseenter', '.acgindex_msg_active', utility.show_msg)
+                     .on('mouseleave', '.acgindex_msg_active', function() { utility.hide_msg(true); } );
+    },
+
+    /*
+     * 当用户hover在某个li上时，读取被选中的ep的本地数据
+     * 
+     */
+    'local' : function() {
         // 获取选中的番组信息
         var a = $(this).children('a'),
             bgmid = a.attr('subject_id'),
