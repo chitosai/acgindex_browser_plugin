@@ -1,5 +1,3 @@
-var acgindex, acgindex_link;
-
 var acgindex_link = null,
     acgindex_core = 'http://acgindex.us/haruka/',
     acgindex_id   = chrome.runtime.id;
@@ -14,13 +12,11 @@ var tip = {
 
 var sources = {
     'bili' : {
-        'id'    : 'bili',
         'title' : 'bilibili在线观看',
         'source': 'bili',
         'link'  : 'http://www.bilibili.tv/video/av'
     },
     'bt':{
-        'id'    : 'bt',
         'title' : 'BT下载',
         'source': 'bt',
         'link'  : 'http://bt.ktxp.com'

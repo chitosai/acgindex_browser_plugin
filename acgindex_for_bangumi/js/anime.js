@@ -18,10 +18,10 @@ var ANIME = {
      */
     'init_dom' : function() {
         // 生成获取视频地址链接
-        acgindex = $('<div> id="acgindex_anime">');
+        acgindex = $('<div>').addClass('acgindex_anime');
 
         // 加入about信息
-        $('<p id="acgindex_about">').text('相关资源').append(
+        $('<p class="acgindex_about">').text('相关资源').append(
             $('<a>').text('Powered by ACGINDEX.US').attr({
                 'id'    : 'acgindex_about_link',
                 'target': '_blank',
@@ -30,14 +30,14 @@ var ANIME = {
         ).appendTo(acgindex);
 
         // 资源链接所在div
-        acgindex_link = $('<div id="acgindex_link">');
+        // 因为后面还经常会引用到，所以干脆写成全局变量了
+        acgindex_link = $('<div>').addClass('acgindex_link');
 
         // 创建资源链接
         var source;
         for(key in sources) {
             source = sources[key];
             $('<a>').attr({
-                'id'    : 'acgindex_' + source.id,
                 'title' : source.title,
                 'source': source.source,
                 'href'  : '*థ౪థ 液！',
@@ -151,13 +151,13 @@ var ANIME = {
         $.ajax({
             'url': acgindex_core + request_data, 
             'timeout': 5000, 
-            'beforeSend': function(){
+            'beforeSend': function() {
                 self.addClass('acgindex_loading');
                 utility.disable_ext('少女读取中');
             },
-            'error': function(xhr, errorType, error){
+            'error': function(xhr, errorType, error) {
                 // xhr.status == 0 表示超时
-                switch(xhr.status){
+                switch(xhr.status) {
                     case 0   : var msg = '0 - 请求超时'; break;
                     case 404 : var msg = '404 - 连接不上目录娘'; break;
                     case 500 : var msg = '500 - 目录娘身体不舒服 QAQ'; break;
@@ -174,6 +174,9 @@ var ANIME = {
                 utility.hide_msg();
             },
             'success': function(raw, status, xhr) {
+                // ajax获取结果比从localstorage中取值要多一些显示查询结果的代码
+                // 所以不方便提取出去通用的样子
+                
                 // 移除loading动画
                 self.removeClass('acgindex_loading');
 
@@ -205,7 +208,7 @@ var ANIME = {
                     }
                     // 正常状态可以保存下来
                     var obj = {};
-                    obj[self.data('ep-unique') + ':' + source] = value; 
+                    obj[ self.data('ep-unique') + ':' + source ] = value; 
                     storage.set( obj, function() {
                         console.log(obj, '已保存到本地');
                     });

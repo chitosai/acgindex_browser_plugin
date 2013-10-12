@@ -43,7 +43,7 @@ var utility = {
 		utility.hide_msg(true);
 	},
 	disable_ext : function( msg ) {
-		$('#acgindex_link a').addClass('acgindex_global_disabled');
+		$('.acgindex_link a').addClass('acgindex_global_disabled');
 		$('.acgindex_msg_active').removeClass('acgindex_msg_active').addClass('acgindex_msg_active_flag');
 
 		if( typeof(msg) == 'string' ) utility.show_msg(msg)

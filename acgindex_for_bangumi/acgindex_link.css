@@ -1,28 +1,30 @@
-#acgindex_anime{
+.acgindex_anime{
 	background: #f7f7f7;
 	border-top: 1px solid #eee;
 	margin-top: 5px;
 	padding: 5px 10px;
 	position: relative;
 }
-#acgindex_music{
+.acgindex_music{
 	padding: 0 15px 10px;
 	margin-top: -3px;
 }
-#acgindex_music #acgindex_link span{
+.acgindex_music .acgindex_link span{
 	line-height: 16px;
 	margin-right: 6px;
 	vertical-align: top;
 }
-#acgindex_music #acgindex_link a{
+.acgindex_music .acgindex_link a{
 	margin: 0 3px 0 0;
 }
 
 
-#acgindex_about_link{
+.acgindex_about_link{
 	float: right;
 	color: #aaa;
 }
+
+
 #acgindex_msg{
 	background: rgba(0, 0, 0, .75);
 	border-radius: 2px;
@@ -43,24 +45,8 @@
 	color: #f00;
 }
 
-#acgindex_bili{
-	background: url('image/bili.ico');
-}
-#acgindex_bt{
-	background: url('image/ktxp.ico'); 
-}
-#acgindex_moefm{
-	background: url('image/moefm.png');
-	margin-right: 2px !important;
-}
-#acgindex_xiami{
-	background: url('image/xiami.png');
-}
-#acgindex_baidu{
-	background: url('image/baidu.png');
-}
 
-#acgindex_link a{
+.acgindex_link a{
 	background-position: center;
 	background-repeat: no-repeat;
 	display: inline-block;
@@ -72,13 +58,32 @@
 	-webkit-transition: all .3s ease;
 	transition: all .3s ease;
 }
-#acgindex_link .acgindex_real_url{
+.acgindex_link .acgindex_real_url{
 	opacity: 1;
 }
-#acgindex_link .acgindex_disabled,
-#acgindex_link .acgindex_global_disabled{
+.acgindex_link .acgindex_disabled,
+.acgindex_link .acgindex_global_disabled{
 	cursor: not-allowed;
 	opacity: .3;
+}
+
+
+/* icons */
+.acgindex_link a[source=bili]{
+	background-image: url('image/bili.ico');
+}
+.acgindex_link a[source=bt]{
+	background-image: url('image/ktxp.ico'); 
+}
+.acgindex_link a[source=moefm]{
+	background-image: url('image/moefm.png');
+	margin-right: 2px !important;
+}
+.acgindex_link a[source=xiami]{
+	background-image: url('image/xiami.png');
+}
+.acgindex_link a[source=baidu]{
+	background-image: url('image/baidu.png');
 }
 
 /* loading animation */
