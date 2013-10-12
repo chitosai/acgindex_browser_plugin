@@ -34,12 +34,10 @@ var ANIME = {
         acgindex_link = $('<div>').addClass('acgindex_link');
 
         // 创建资源链接
-        var source;
-        for(key in sources) {
-            source = sources[key];
+        for(source in SOURCES['anime']) {
             $('<a>').attr({
-                'title' : source.title,
-                'source': source.source,
+                'title' : SOURCES['anime'][source].title,
+                'source': source,
                 'href'  : '*థ౪థ 液！',
                 'target': '_blank',
             }).text('*థ౪థ 液！').appendTo(acgindex_link);
@@ -109,16 +107,16 @@ var ANIME = {
                     // 没有找到资源的情况
                     if( data == '' || data == '-1' ) {
                         _class += 'acgindex_msg_active acgindex_disabled';
-                        self.data('msg', tip.RESOURCE_NOT_FOUND );
+                        self.data('msg', TIP.RESOURCE_NOT_FOUND );
                     } else {
                         // 找到了资源的情况
                         // 先判断是否需要登录
                         if(obj[key][0] == 'x') {
                             data = data.substr(1);
-                            self.data('msg', tip.RESOURCE_NEED_LOGIN);
+                            self.data('msg', TIP.RESOURCE_NEED_LOGIN);
                             _class = 'acgindex_msg_active ';
                         }
-                        _href = sources[source].link + data;
+                        _href = SOURCES['anime'][source].url + data;
                         _class += 'acgindex_real_url';
                     }
                     self.attr({
@@ -190,21 +188,21 @@ var ANIME = {
 
                     if( value == '' || value == '-1' ) {
                         // 没有找到资源
-                        self.addClass('acgindex_msg_active acgindex_disabled').data('msg', tip.RESOURCE_NOT_FOUND);
-                        return_msg = tip.RESOURCE_NOT_FOUND;
+                        self.addClass('acgindex_msg_active acgindex_disabled').data('msg', TIP.RESOURCE_NOT_FOUND);
+                        return_msg = TIP.RESOURCE_NOT_FOUND;
                     } else {
                         // 找到了资源的情况
-                        var url = sources[source].link + value;
+                        var url = SOURCES['anime'][source].url + value;
 
                         self.attr({
                             'href'   : url,
                             'class'  : 'acgindex_real_url'
                         });
-                        return_msg = tip.RESOURCE_FOUND;
+                        return_msg = TIP.RESOURCE_FOUND;
 
                         // 附上需要登录提示
                         if( source == 'bili' && value[0] == 'x' ) 
-                            self.addClass('acgindex_msg_active').data('msg', tip.RESOURCE_NEED_LOGIN);
+                            self.addClass('acgindex_msg_active').data('msg', TIP.RESOURCE_NEED_LOGIN);
                     }
                     // 正常状态可以保存下来
                     var obj = {};
@@ -212,8 +210,9 @@ var ANIME = {
                     storage.set( obj, function() {
                         console.log(obj, '已保存到本地');
                     });
-                    
+
                 } else {
+
                     // 异常状态
                     switch( value ) {
                         case '-10' : return_msg = '发出的参数有误，不要随意改动参数哦'; break;
@@ -221,6 +220,7 @@ var ANIME = {
                         default    : return_msg = '收到了不正常的回复 Σ( °Д °) : ' + value; break;
                     }
                     self.addClass('acgindex_msg_active acgindex_error').data('msg', value);
+
                 }
 
                 utility.enable_ext();
