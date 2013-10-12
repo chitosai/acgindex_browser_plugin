@@ -2,12 +2,12 @@
  * 这里负责数据的获取与分发
  *
  */
-var data = {
-
+var ANIME = {
     /*
      * 当用户hover在某个li上时，读取被选中的ep的本地数据
+     * 
      */
-    'local' : function() {
+    'init' : function() {
         // 获取选中的番组信息
         var a = $(this).children('a'),
             bgmid = a.attr('subject_id'),

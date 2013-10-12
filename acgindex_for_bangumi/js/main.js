@@ -88,9 +88,9 @@ function insert_resource_anime() {
  */
 function bind_event_anime() {
 	// 番组表的hover时读取本地数据
-	$('.prg_list, .subject_prg ul').on('mouseenter', 'li', data.local);
+	$('.prg_list, .subject_prg ul').on('mouseenter', 'li', ANIME.init);
 	// 获取资源链接点击事件
-	acgindex_link.on('click', 'a', data.get);
+	acgindex_link.on('click', 'a', ANIME.get);
 	// 悬浮提示
 	acgindex_link.on('mouseenter', '.acgindex_msg_active', utility.show_msg)
 				 .on('mouseleave', '.acgindex_msg_active', function() { utility.hide_msg(true); } );
