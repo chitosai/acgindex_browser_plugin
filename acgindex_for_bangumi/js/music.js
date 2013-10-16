@@ -10,7 +10,7 @@ var MUSIC = {
     'init' : function() {
         MUSIC.init_album();
         MUSIC.init_single();
-        MUSIC.load_resource();
+        // MUSIC.load_resource();
     },
 
     /*

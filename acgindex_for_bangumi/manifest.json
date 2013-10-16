@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
 
-  "name": "ACGINDEX for Bangumi",
+  "name": "Bangumi资源插件",
   "description": "*థ౪థ 液！",
   "version": "1.60",
 
@@ -9,10 +9,7 @@
   	"tabs",
     "storage",
     "http://bgm.tv/",
-    "http://acgindex.us/",
-    "http://www.xiami.com/",
-    "http://music.baidu.com/",
-    "http://moe.fm/"
+    "http://acgindex.us/"
   ],
   "background" : {
     "scripts": ["js/background.js"]

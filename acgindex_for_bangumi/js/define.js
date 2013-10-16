@@ -24,7 +24,8 @@ var SOURCES = {
     'music_album': {
         'moefm' : {
                 'title'  : '萌否电台',
-                'url'    : 'http://moe.fm/search?q=',
+                /*'url'    : 'http://moe.fm/search?q=',*/
+                'url'    : 'http://moe.fm/search/direct?title=',
                 'api'    : 'http://moe.fm/search/direct?api=json&listen=1&bgm_id=',
         },
         'xiami' : {
@@ -37,6 +38,7 @@ var SOURCES = {
         'moefm' : {
                 'title'  : '萌否电台',
                 'url'    : 'http://moe.fm/search/song?q=',
+                /*'url'    : 'http://moe.fm/search/direct?title=',*/
                 'api'    : 'http://moe.fm/search/direct?api=json&listen=1&title=',
         },
         'xiami' : {
