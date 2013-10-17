@@ -207,9 +207,7 @@ var ANIME = {
                     // 正常状态可以保存下来
                     var obj = {};
                     obj[ self.data('ep-unique') + ':' + source ] = value; 
-                    storage.set( obj, function() {
-                        console.log(obj, '已保存到本地');
-                    });
+                    storage.set(obj);
 
                 } else {
 

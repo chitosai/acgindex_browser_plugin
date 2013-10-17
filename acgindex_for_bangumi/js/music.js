@@ -168,9 +168,7 @@ var MUSIC = {
                 }
 
                 // 储存结果到本地
-                storage.set(obj, function() {
-                    console.log(obj, '已保存到本地');
-                });
+                storage.set(obj);
             }
         });
     },
@@ -203,9 +201,7 @@ var MUSIC = {
                 }
 
                 // 储存结果到本地
-                storage.set(obj, function() {
-                    console.log(obj, '已保存到本地');
-                });
+                storage.set(obj);
             }
         });
     },
