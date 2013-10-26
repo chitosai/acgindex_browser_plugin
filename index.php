@@ -1,1 +1,0 @@
-ACGINDEX plugin update source
