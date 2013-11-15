@@ -111,7 +111,7 @@ var MUSIC = {
                 ep_unique = self.data('ep-unique');
 
             storage.get( ep_unique, function(obj) {
-                if( utility.is_object_empty(obj) ) {
+                if( UTILITY.is_object_empty(obj) ) {
                     // 没有本地数据时就发起ajax查询
                     MUSIC.get_resource(self);
                 } else {

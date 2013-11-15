@@ -61,8 +61,8 @@ var ANIME = {
         // 获取资源链接点击事件
         acgindex_link.on('click', 'a', ANIME.get);
         // 悬浮提示
-        acgindex_link.on('mouseenter', '.acgindex_msg_active', utility.show_msg)
-                     .on('mouseleave', '.acgindex_msg_active', function() { utility.hide_msg(true); } );
+        acgindex_link.on('mouseenter', '.acgindex_msg_active', UTILITY.show_msg)
+                     .on('mouseleave', '.acgindex_msg_active', function() { UTILITY.hide_msg(true); } );
     },
 
     /*
@@ -92,7 +92,7 @@ var ANIME = {
                 key = ep_unique + ':' + source;
 
             storage.get( key, function(obj) {
-                if( utility.is_object_empty(obj) ) {
+                if( UTILITY.is_object_empty(obj) ) {
                     // 没有本地数据时将链接重置
                     self.attr({
                         'class' : '',
@@ -151,7 +151,7 @@ var ANIME = {
             'timeout': 5000, 
             'beforeSend': function() {
                 self.addClass('acgindex_loading');
-                utility.disable_ext('少女读取中');
+                UTILITY.disable_ext('少女读取中');
             },
             'error': function(xhr, errorType, error) {
                 // xhr.status == 0 表示超时
@@ -165,11 +165,11 @@ var ANIME = {
                 self.removeClass('acgindex_loading')
                     .addClass('acgindex_msg_active acgindex_error acgindex_disabled')
                     .data('msg', msg);
-                utility.enable_ext();
+                UTILITY.enable_ext();
                 
-                // 显示一个定时提示，utility.hide_msg_delay后自动消失
-                utility.show_msg( msg );
-                utility.hide_msg();
+                // 显示一个定时提示，UTILITY.hide_msg_delay后自动消失
+                UTILITY.show_msg( msg );
+                UTILITY.hide_msg();
             },
             'success': function(raw, status, xhr) {
                 // ajax获取结果比从localstorage中取值要多一些显示查询结果的代码
@@ -221,10 +221,10 @@ var ANIME = {
 
                 }
 
-                utility.enable_ext();
-                // 显示一个定时提示，utility.hide_msg_delay后自动消失
-                utility.show_msg( return_msg );
-                utility.hide_msg();
+                UTILITY.enable_ext();
+                // 显示一个定时提示，UTILITY.hide_msg_delay后自动消失
+                UTILITY.show_msg( return_msg );
+                UTILITY.hide_msg();
             }
         });
 
