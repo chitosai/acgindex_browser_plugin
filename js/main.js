@@ -12,7 +12,7 @@ $('<link>').attr({
 // 根据页面类型调用相关方法...
 var page_type = $('#navMenuNeue .focus').attr('href');
 switch(page_type) {
-	case '/':
-	case '/anime' : ANIME.init(); break;
+	case '/' : ANIME.init('home'); break;
+	case '/anime' : ANIME.init('subject'); break;
 	case '/music' : MUSIC.init(); break;
 }

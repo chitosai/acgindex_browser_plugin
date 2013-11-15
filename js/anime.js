@@ -7,9 +7,9 @@ var ANIME = {
      * 初始化!!!
      * 
      */
-    'init' : function() {
+    'init' : function(type) {
         ANIME.init_dom();
-        ANIME.init_event();
+        ANIME.init_event(type);
     },
 
     /*
@@ -23,7 +23,7 @@ var ANIME = {
         // 加入about信息
         $('<p class="acgindex_about">').text('相关资源').append(
             $('<a>').text('Powered by ACGINDEX.US').attr({
-                'id'    : 'acgindex_about_link',
+                'class' : 'acgindex_about_link',
                 'target': '_blank',
                 'href'  : 'http://acgindex.us/'
             })
@@ -55,9 +55,15 @@ var ANIME = {
      * 初始化事件
      * 
      */
-    'init_event' : function() {
+    'init_event' : function(type) {
         // 番组表的hover时读取本地数据
-        $('.prg_list, .subject_prg ul').on('mouseenter', 'li', ANIME.local);
+        switch(type) {
+            // 首页
+            case 'home' : $('#columnHomeA').on('mouseenter', 'a.load-epinfo', ANIME.local);
+            // 条目页
+            case 'subject' : $('#subject_detail').on('mouseenter', 'a.load-epinfo', ANIME.local);
+        }
+        
         // 获取资源链接点击事件
         acgindex_link.on('click', 'a', ANIME.get);
         // 悬浮提示
@@ -71,15 +77,17 @@ var ANIME = {
      */
     'local' : function() {
         // 获取选中的番组信息
-        var a = $(this).children('a'),
+        var a = $(this),
             bgmid = a.attr('subject_id'),
             epid = a.text(),
             ep_unique = a.attr('href').replace('/ep/', '');
 
         // 首页和条目页获取bgmid的位置不同
         // 如果没有取到bgmid需要重新获取一下
-        if( !bgmid ) 
-            bgmid = $(this).parent().parent().children('a').attr('href').replace('/subject/', '').replace('/ep', '');
+        if( !bgmid ) {
+            bgmid = $(this).parent().parent().parent().children('a')
+                           .attr('href').replace('/subject/', '').replace('/ep', '');
+        }
 
         // 把这些数据写到acgindex_link的DOM上
         acgindex_link.data({'bid': bgmid, 'eid': epid});
@@ -102,16 +110,26 @@ var ANIME = {
                     // 如果有本地数据就填进去
                     var _class = '',
                         _href = '*థ౪థ 液！',
-                        data = obj[key];
+                        timestamp = obj[key]['timestamp'],
+                        data = obj[key]['value'];
 
-                    // 没有找到资源的情况
+                    // "没有找到资源"状态
                     if( data == '' || data == '-1' ) {
-                        _class += 'acgindex_msg_active acgindex_disabled';
-                        self.data('msg', TIP.RESOURCE_NOT_FOUND );
+                        // 首先检查时间戳是否过期
+                        // 如果过期就提示用户手动重新获取
+                        var time = new Date().getTime();
+                        if( time - timestamp > resource_not_found_state_expire_period ) {
+                            _class = 'acgindex_msg_active';
+                            self.data('msg', TIP.RESOURCE_NOT_FOUND_STATE_EXPIRED);
+                        } else {
+                            // 没有过期时显示没有资源提示
+                            _class += 'acgindex_msg_active acgindex_disabled';
+                            self.data('msg', TIP.RESOURCE_NOT_FOUND );
+                        }
                     } else {
                         // 找到了资源的情况
                         // 先判断是否需要登录
-                        if(obj[key][0] == 'x') {
+                        if( data[0] == 'x' ) {
                             data = data.substr(1);
                             self.data('msg', TIP.RESOURCE_NEED_LOGIN);
                             _class = 'acgindex_msg_active ';
@@ -206,8 +224,8 @@ var ANIME = {
                     }
                     // 正常状态可以保存下来
                     var obj = {};
-                    obj[ self.data('ep-unique') + ':' + source ] = value; 
-                    storage.set(obj);
+                    obj['value'] = value; 
+                    STORAGE.save( self.data('ep-unique') + ':' + source, obj);
 
                 } else {
 

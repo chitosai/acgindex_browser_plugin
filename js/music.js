@@ -115,7 +115,7 @@ var MUSIC = {
                     // 没有本地数据时就发起ajax查询
                     MUSIC.get_resource(self);
                 } else {
-                    url = obj[ep_unique];
+                    url = obj[ep_unique]['value'];
                     // 修改资源链接
                     if( url != '-1' ) {
                         self.attr('href', url);
@@ -161,14 +161,14 @@ var MUSIC = {
                 // 根据返回值修改资源链接
                 if( data['has_mp3'] == true ) {
                     self.attr('href', data['url']);
-                    obj[ep_unique] = data['url'];
+                    obj['value'] = data['url'];
                 } else {
                     self.addClass('acgindex_disabled');
-                    obj[ep_unique] = '-1';
+                    obj['value'] = '-1';
                 }
 
                 // 储存结果到本地
-                storage.set(obj);
+                STORAGE.save( ep_unique, obj );
             }
         });
     },
@@ -194,14 +194,14 @@ var MUSIC = {
                 // 根据返回值修改资源链接
                 if( match ) {
                     self.attr('href', match[1]);
-                    obj[ep_unique] = match[1];
+                    obj['value'] = match[1];
                 } else {
                     self.addClass('acgindex_disabled');
-                    obj[ep_unique] = '-1';
+                    obj['value'] = '-1';
                 }
 
                 // 储存结果到本地
-                storage.set(obj);
+                STORAGE.save( ep_unique, obj );
             }
         });
     },

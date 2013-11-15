@@ -16,7 +16,7 @@
 
 .acgindex_about_link{
 	float: right;
-	color: #aaa;
+	color: #aaa !important;
 }
 
 
@@ -25,15 +25,16 @@
 	border-radius: 2px;
 	color: #fff;
 	text-align: center;
-	opacity: 0;
+	opacity: .1;
 	padding: 3px 6px;
 	position: absolute;
-	bottom: 45px;
+	bottom: -9999px;
 	left: 125px;
-	-webkit-transition: all .3s ease;
-	transition: all .3s ease;
+	-webkit-transition: left .3s ease, opacity .15s ease;
+	transition: left .3s ease, opacity .15s ease;
 }
 #acgindex_msg.acgindex_msg_active{
+	bottom: 45px;
 	opacity: 1;
 }
 #acgindex_msg.acgindex_error{
