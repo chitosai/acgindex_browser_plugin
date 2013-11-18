@@ -10,7 +10,7 @@ var resource_not_found_state_expire_period = 100 * 3600 * 12;
 var TIP = {
     RESOURCE_FOUND                   : '获取完毕 (<ゝω·)',
     RESOURCE_NOT_FOUND               : '找不到资源 （；´д｀）',
-    RESOURCE_NOT_FOUND_STATE_EXPIRED : '数据已过期，您可以点击重新获取',
+    // RESOURCE_NOT_FOUND_STATE_EXPIRED : '数据已过期，您可以点击重新获取',
     RESOURCE_NEED_LOGIN              : '似乎需要登录才能观看 (・∀・)',
 }
 

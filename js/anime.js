@@ -116,12 +116,9 @@ var ANIME = {
                     // "没有找到资源"状态
                     if( data == '' || data == '-1' ) {
                         // 首先检查时间戳是否过期
-                        // 如果过期就提示用户手动重新获取
+                        // 如果已过期就当成"未获取"状态显示
                         var time = new Date().getTime();
-                        if( time - timestamp > resource_not_found_state_expire_period ) {
-                            _class = 'acgindex_msg_active';
-                            self.data('msg', TIP.RESOURCE_NOT_FOUND_STATE_EXPIRED);
-                        } else {
+                        if( time - timestamp < resource_not_found_state_expire_period ) {
                             // 没有过期时显示没有资源提示
                             _class += 'acgindex_msg_active acgindex_disabled';
                             self.data('msg', TIP.RESOURCE_NOT_FOUND );
