@@ -89,6 +89,12 @@ var ANIME = {
                            .attr('href').replace('/subject/', '').replace('/ep', '');
         }
 
+        // 第一格不是01时，epid要减掉第一格的实际话数
+        // 例： bgmid = 77706 
+        // 第一格实际话数为 26，因此 epid = epid - 26 + 1
+        var ep_revise = parseInt(a.parent().parent().children(':first').children().text());
+        if( ep_revise != 1 ) epid = parseInt(epid) - ep_revise + 1;
+
         // 把这些数据写到acgindex_link的DOM上
         acgindex_link.data({'bid': bgmid, 'eid': epid});
         // ep-unique-id写到具体链接上
