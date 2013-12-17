@@ -4,14 +4,17 @@ var acgindex_link = null,
 
 var storage = chrome.storage.local;
 
-// “没有找到资源”状态的过期时间 - 12小时
-var resource_not_found_state_expire_period = 100 * 3600 * 12;
+// 新番播出后多少时间内提示“可能还没有资源”- 48小时
+var resource_not_found_time_too_short = 1000 * 3600 * 48;
 
 var TIP = {
     RESOURCE_FOUND                   : '获取完毕 (<ゝω·)',
     RESOURCE_NOT_FOUND               : '找不到资源 （；´д｀）',
     // RESOURCE_NOT_FOUND_STATE_EXPIRED : '数据已过期，您可以点击重新获取',
     RESOURCE_NEED_LOGIN              : '似乎需要登录才能观看 (・∀・)',
+    RESOURCE_NOT_FOUND_TIME_TOO_SHORT: '这话刚刚播出不到48小时，似乎还没出资源，过几个小时再来看看吧 (・∀・)',
+    RESOURCE_NOT_BOARDCASTED         : '诶，这话似乎还没有播出啊 (´･ω･`)',
+    RESOURCE_NOT_FOUND_RETRY         : '再点我一下试试，说不定资源已经出了呢 (・∀・)',
 }
 
 var SOURCES = {

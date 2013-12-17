@@ -121,13 +121,19 @@ var ANIME = {
 
                     // "没有找到资源"状态
                     if( data == '' || data == '-1' ) {
-                        // 首先检查时间戳是否过期
-                        // 如果已过期就当成"未获取"状态显示
-                        var time = new Date().getTime();
-                        if( time - timestamp < resource_not_found_state_expire_period ) {
-                            // 没有过期时显示没有资源提示
+                        // 判断是否是新番
+                        var last_get_time = new Date(parseInt(timestamp)),
+                            boardcast_time = ANIME.get_boardcast_date();
+                        // 如果最后获取时间减去首播时间不到resource_not_found_time_too_short，就判定是新番
+                        // 此时提示重新获取
+                        if( boardcast_time && ( last_get_time - boardcast_time < resource_not_found_time_too_short ) ) {
+                            _class += 'acgindex_msg_active';
+                            self.data('msg', TIP.RESOURCE_NOT_FOUND_RETRY);
+                        } 
+                        // 否则认为是旧番，正常显示“没有找到资源”
+                        else {
                             _class += 'acgindex_msg_active acgindex_disabled';
-                            self.data('msg', TIP.RESOURCE_NOT_FOUND );
+                            self.data('msg', TIP.RESOURCE_NOT_FOUND);
                         }
                     } else {
                         // 找到了资源的情况
@@ -209,8 +215,28 @@ var ANIME = {
 
                     if( value == '' || value == '-1' ) {
                         // 没有找到资源
-                        self.addClass('acgindex_msg_active acgindex_disabled').data('msg', TIP.RESOURCE_NOT_FOUND);
+                        // 总之先默认填上没有找到资源的返回提示
+                        self.addClass('acgindex_msg_active acgindex_disabled')
+                            .data('msg', TIP.RESOURCE_NOT_FOUND);
                         return_msg = TIP.RESOURCE_NOT_FOUND;
+
+                        // 判断是否是新番
+                        var boardcast_time = ANIME.get_boardcast_date();
+                        if( boardcast_time ) {
+                            var now = new Date();
+                            // 首播日期晚于当前时间，应该是还未播出的番
+                            if( now < boardcast_time ) {
+                                self.data('msg', TIP.RESOURCE_NOT_BOARDCASTED);
+                                return_msg = TIP.RESOURCE_NOT_BOARDCASTED;
+                            } 
+                            // 如果当前时间减去首播时间不到resource_not_found_time_too_short，就判定是新番
+                            else if( ( now - boardcast_time < resource_not_found_time_too_short ) 
+                                && ( now - boardcast_time > 0 ) ) {
+                                self.data('msg', TIP.RESOURCE_NOT_FOUND_TIME_TOO_SHORT);
+                                return_msg = TIP.RESOURCE_NOT_FOUND_TIME_TOO_SHORT;
+                            } 
+                        }
+
                     } else {
                         // 找到了资源的情况
                         var url = SOURCES['anime'][source].url + value;
@@ -250,5 +276,28 @@ var ANIME = {
         });
 
         return false;
+    },
+
+    /**
+     * 获取当前的弹层的“首播日期”字段
+     *
+     * @return new Date(year, month, date) if matched
+     * @return false if not matched
+     */
+    get_boardcast_date : function() {
+        var tip_content = acgindex.prev().children().children('.tip').text(),
+            match, 
+            boardcast_time = false;
+
+        // 读取.tip中的文本，然后正则查找内容
+        if( tip_content ) {
+            match = /首播:(\d{4})-(\d{1,2})-(\d{1,2})/.exec(tip_content);
+            // 检查是否有匹配值
+            if( match && match.length > 1 ) {
+                boardcast_time = new Date(match[1], parseInt(match[2])-1, match[3]);
+            }
+        }
+
+        return boardcast_time;
     }
 }
