@@ -10,6 +10,7 @@ var ANIME = {
     'init' : function(type) {
         ANIME.init_dom();
         ANIME.init_event(type);
+        UTILITY.init_msg();
     },
 
     /*
@@ -36,16 +37,13 @@ var ANIME = {
         // 创建资源链接
         for(source in SOURCES['anime']) {
             $('<a>').attr({
-                'title' : SOURCES['anime'][source].title,
+                // 'title' : SOURCES['anime'][source].title,
                 'source': source,
                 'href'  : '*థ౪థ 液！',
                 'target': '_blank',
             }).appendTo(acgindex_link);
         }
         acgindex_link.appendTo(acgindex);
-
-        // 插一个消息提示层
-        $('<p id="acgindex_msg">').appendTo(acgindex);
 
         // 把获取地址的链接插入cluetip悬浮层
         $('#cluetip-outer').append(acgindex);
@@ -119,7 +117,7 @@ var ANIME = {
                     // "没有找到资源"状态
                     if( data == '' || data == '-1' ) {
                         // 判断是否是新番
-                        var last_get_time = new Date(parseInt(timestamp)),
+                        var last_get_time = new Date(timestamp),
                             boardcast_time = ANIME.get_boardcast_date();
                         // 如果最后获取时间减去首播时间不到resource_not_found_time_too_short，就判定是新番
                         // 此时提示重新获取
@@ -128,11 +126,13 @@ var ANIME = {
                         } 
                         // 否则认为是旧番，正常显示“没有找到资源”
                         else {
-                            self.attr('msg', TIP.RESOURCE_NOT_FOUND).disable();
+                            self.attr('msg', TIP.RESOURCE_NOT_FOUND);
                         }
+                        // disabled it
+                        _class += 'acgindex_disabled';
                     } else {
                         // 找到了资源的情况
-                        // 先判断是否需要登录
+                        // 判断是否需要登录
                         if( data[0] == 'x' ) {
                             data = data.substr(1);
                             self.attr('msg', TIP.RESOURCE_NEED_LOGIN);
@@ -140,9 +140,10 @@ var ANIME = {
                         _href = SOURCES['anime'][source].url + data;
                         _class += 'acgindex_real_url';
                     }
+                    // 写入属性
                     self.attr({
                         'class' : _class,
-                        'href'  : _href
+                        'href'  : _href,
                     });
                 }
             });
@@ -167,12 +168,15 @@ var ANIME = {
         // 在可点的情况下，如果是已有数据就直接打开新页面
         if(self.hasClass('acgindex_real_url')) return true;
 
+        // 隐藏a本身带的状态提示
+        self.removeAttr('msg');
+
         $.ajax({
             'url': acgindex_core + request_data, 
             'timeout': 5000, 
             'beforeSend': function() {
                 self.addClass('acgindex_loading');
-                UTILITY.disable_ext('少女读取中');
+                UTILITY.disable_ext('少女读取中', 5000, true);
             },
             'error': function(xhr, errorType, error) {
                 // xhr.status == 0 表示超时
@@ -184,13 +188,12 @@ var ANIME = {
                 }
 
                 self.removeClass('acgindex_loading')
-                    .addClass('acgindex_msg_active acgindex_error acgindex_disabled')
-                    .data('msg', msg);
+                    .addClass('acgindex_error acgindex_disabled')
+                    .attr('msg', msg);
                 UTILITY.enable_ext();
                 
-                // 显示一个定时提示，UTILITY.hide_msg_delay后自动消失
+                // 显示返回值状态
                 UTILITY.show_msg( msg );
-                UTILITY.hide_msg();
             },
             'success': function(raw, status, xhr) {
                 // ajax获取结果比从localstorage中取值要多一些显示查询结果的代码
@@ -210,8 +213,7 @@ var ANIME = {
                     if( value == '' || value == '-1' ) {
                         // 没有找到资源
                         // 总之先默认填上没有找到资源的返回提示
-                        self.addClass('acgindex_msg_active acgindex_disabled')
-                            .data('msg', TIP.RESOURCE_NOT_FOUND);
+                        self.attr('msg', TIP.RESOURCE_NOT_FOUND).disable();
                         return_msg = TIP.RESOURCE_NOT_FOUND;
 
                         // 判断是否是新番
@@ -220,16 +222,20 @@ var ANIME = {
                             var now = new Date();
                             // 首播日期晚于当前时间，应该是还未播出的番
                             if( now < boardcast_time ) {
-                                self.data('msg', TIP.RESOURCE_NOT_BOARDCASTED);
+                                self.attr('msg', TIP.RESOURCE_NOT_BOARDCASTED);
                                 return_msg = TIP.RESOURCE_NOT_BOARDCASTED;
                             } 
                             // 如果当前时间减去首播时间不到resource_not_found_time_too_short，就判定是新番
                             else if( ( now - boardcast_time < resource_not_found_time_too_short ) 
                                 && ( now - boardcast_time > 0 ) ) {
-                                self.data('msg', TIP.RESOURCE_NOT_FOUND_TIME_TOO_SHORT);
+                                self.attr('msg', TIP.RESOURCE_NOT_FOUND_TIME_TOO_SHORT);
                                 return_msg = TIP.RESOURCE_NOT_FOUND_TIME_TOO_SHORT;
                             } 
                         }
+
+                        // 普通的没有找到资源提示显示 2s
+                        // 其他特殊状态为了让用户看清显示久一点 4s
+                        UTILITY.show_msg( return_msg, return_msg === TIP.RESOURCE_FOUND ? 2000 : 4000 );
 
                     } else {
                         // 找到了资源的情况
@@ -243,12 +249,15 @@ var ANIME = {
 
                         // 附上需要登录提示
                         if( source == 'bili' && value[0] == 'x' ) 
-                            self.addClass('acgindex_msg_active').data('msg', TIP.RESOURCE_NEED_LOGIN);
+                            self.attr('msg', TIP.RESOURCE_NEED_LOGIN);
                     }
                     // 正常状态可以保存下来
                     var obj = {};
                     obj['value'] = value; 
                     STORAGE.save( self.data('ep-unique') + ':' + source, obj);
+
+                    // 获取完毕的提示2s就够了
+                    UTILITY.show_msg( return_msg, 2000 );
 
                 } else {
 
@@ -258,14 +267,14 @@ var ANIME = {
                         case '-20' : return_msg = '点的太快目录娘会受不了的啦 >_<'; break;
                         default    : return_msg = '收到了不正常的回复 Σ( °Д °) : ' + value; break;
                     }
-                    self.addClass('acgindex_msg_active acgindex_error').data('msg', value);
+                    self.addClass('acgindex_error').attr('msg', value).disable();
+
+                    // 异常状态也稍微久一点 4s
+                    UTILITY.show_msg( return_msg, 4000 );
 
                 }
 
                 UTILITY.enable_ext();
-                // 显示一个定时提示，UTILITY.hide_msg_delay后自动消失
-                UTILITY.show_msg( return_msg );
-                UTILITY.hide_msg();
             }
         });
 

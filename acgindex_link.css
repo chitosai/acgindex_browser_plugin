@@ -11,24 +11,41 @@
  * 
  */
 #acgindex_msg {
-  background: rgba(0, 0, 0, 0.75);
-  border-radius: 2px;
-  color: #fff;
-  text-align: center;
-  opacity: .1;
-  padding: 3px 6px;
+  font-family: '微软雅黑', 'Microsoft Yahei';
   position: absolute;
-  bottom: -9999px;
-  left: 125px;
-  -webkit-transition: left .3s ease, opacity .15s ease;
-  transition: left .3s ease, opacity .15s ease;
+  width: 220px;
+  z-index: 999;
 }
-#acgindex_msg.acgindex_msg_active {
-  bottom: 45px;
+#acgindex_msg p {
+  background: #F09199;
+  color: #fff;
+  line-height: 2;
   opacity: 1;
+  padding: 0 7px;
+  position: absolute;
+  top: 0;
+  -webkit-transition: all .4s ease;
+  transition: all .4s ease;
 }
-#acgindex_msg.acgindex_error {
-  color: #f00;
+#acgindex_msg p.acgindex_msg_loading {
+  padding-left: 0;
+}
+#acgindex_msg p.acgindex_msg_loading::before {
+  background: url('image/loading.gif') no-repeat center;
+  content: "Loading";
+  display: inline-block;
+  text-indent: -9999px;
+  padding: 0 5px;
+  width: 15px;
+  height: 100%;
+}
+#acgindex_msg p.acgindex_msg_slide_in {
+  top: 20px;
+  opacity: 0;
+}
+#acgindex_msg p.acgindex_msg_slide_out {
+  top: -20px;
+  opacity: 0;
 }
 /**
  * 按钮
@@ -67,21 +84,21 @@
   display: block;
   text-align: center;
   opacity: .1;
-  padding: 8px 12px;
+  padding: 6px 12px;
   position: absolute;
-  bottom: 30px;
+  bottom: 25px;
   left: -9999px;
   width: 180px;
   -webkit-transition: bottom .2s ease, opacity .2s ease;
   transition: bottom .2s ease, opacity .2s ease;
 }
 .acgindex_link a[msg]:hover::after {
-  bottom: 25px;
+  bottom: 20px;
   left: -90px;
   opacity: 1;
 }
 .acgindex_link a[msg].acgindex_error::after {
-  color: #f00;
+  color: #EDFF24;
 }
 .acgindex_link a[source=bili]::before {
   background-image: url('image/bili.ico');
@@ -138,8 +155,9 @@
   margin-bottom: 1px;
 }
 /* loading animation */
-.acgindex_loading {
+.acgindex_loading::before {
   -webkit-animation: acgindex-loading 1s linear infinite;
+  animation: acgindex-loading 1s linear infinite;
 }
 @-webkit-keyframes acgindex-loading {
   50% {

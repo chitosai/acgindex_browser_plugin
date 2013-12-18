@@ -7,6 +7,9 @@ var storage = chrome.storage.local;
 // 新番播出后多少时间内提示“可能还没有资源”- 48小时
 var resource_not_found_time_too_short = 1000 * 3600 * 48;
 
+// 返回值消息多少ms后隐藏
+var hide_msg_delay = 3000;
+
 var TIP = {
     RESOURCE_FOUND                   : '获取完毕 (<ゝω·)',
     RESOURCE_NOT_FOUND               : '找不到资源 （；´д｀）',

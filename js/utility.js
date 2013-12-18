@@ -10,43 +10,58 @@ var UTILITY = {
 		return true;
 	},
 
-	// 显示消息用的
-	hide_msg_delay : 1000,
-	hide_msg_timeout : null,
-	show_msg : function( input ) {
-		clearTimeout(UTILITY.hide_msg_timeout);
-		if( typeof(input) == 'object' ) {
-			// 自动从DOM上获取提示文本
-			flag = $(this).attr('class');
-			msg = $(this).data('msg');
-		} else {
-			// 人工传入文本
-			flag = 'acgindex_msg_active';
-			msg = input;
-		}
-		var mbox = $('#acgindex_msg'), text_len = msg.length;
-		mbox.text(msg).css({
-			'left': (275-mbox.width())/2 + 'px'
-		}).attr('class', flag);
+	// 显示返回值消息
+	init_msg : function() {
+        // 插一个消息提示层
+        acgindex_msg = $('<div>').attr('id', 'acgindex_msg').appendTo($('body'));
+        // 这个层一直跟着鼠标移动
+        $(document).mousemove(function(e) {
+        	acgindex_msg.css({
+        		top: e.pageY,
+        		left: e.pageX + 20
+        	});
+        });
 	},
-	hide_msg : function( immediately ) {
-		UTILITY.hide_msg_timeout = setTimeout(function() {
-			$('#acgindex_msg').attr('class', '');
-		}, (immediately === true ? 1 : UTILITY.hide_msg_delay));
+	show_msg : function( msg, hide_delay, loading ) {
+		// 移除原有消息
+		var prev = acgindex_msg.children('p');
+		prev.addClass('acgindex_msg_slide_out');
+		setTimeout(function(){
+			prev.remove();
+		}, 500);
+
+		// 创建新消息
+		var m = $('<p>').addClass('acgindex_msg_slide_in').text(msg);
+		// 如果是读取状态要加上读取状态特殊标识
+		if( loading ) m.addClass('acgindex_msg_loading');
+		// 加入DOM
+		m.appendTo(acgindex_msg);
+
+		// 滑进来
+		setTimeout(function() {
+			m.removeClass('acgindex_msg_slide_in');
+		}, 10);
+		
+		// 没有被新消息移除的话，hide_delay后自动消失
+		setTimeout(function() {
+			if(m) {
+				// 消失动画
+				m.addClass('acgindex_msg_slide_out');
+				// 300ms后移除DOM
+				setTimeout(function(){
+					m.remove();
+				}, 300);
+			}
+		}, hide_delay ? hide_delay : hide_msg_delay);
 	},
 
 	// 全局状态
 	enable_ext : function() {
 		$('.acgindex_global_disabled').removeClass('acgindex_global_disabled');
-		$('.acgindex_msg_active_flag').removeClass('acgindex_msg_active_flag').addClass('acgindex_msg_active');
-
-		UTILITY.hide_msg(true);
 	},
-	disable_ext : function( msg ) {
+	disable_ext : function( msg, hide_delay, loading ) {
 		$('.acgindex_link a').addClass('acgindex_global_disabled');
-		$('.acgindex_msg_active').removeClass('acgindex_msg_active').addClass('acgindex_msg_active_flag');
-
-		if( typeof(msg) == 'string' ) UTILITY.show_msg(msg)
+		UTILITY.show_msg(msg, hide_delay, loading);
 	}
 
 }
