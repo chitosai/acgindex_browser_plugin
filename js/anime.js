@@ -40,7 +40,7 @@ var ANIME = {
                 'source': source,
                 'href'  : '*థ౪థ 液！',
                 'target': '_blank',
-            }).text('*థ౪థ 液！').appendTo(acgindex_link);
+            }).appendTo(acgindex_link);
         }
         acgindex_link.appendTo(acgindex);
 
@@ -66,9 +66,6 @@ var ANIME = {
         
         // 获取资源链接点击事件
         acgindex_link.on('click', 'a', ANIME.get);
-        // 悬浮提示
-        acgindex_link.on('mouseenter', '.acgindex_msg_active', UTILITY.show_msg)
-                     .on('mouseleave', '.acgindex_msg_active', function() { UTILITY.hide_msg(true); } );
     },
 
     /*
@@ -106,13 +103,13 @@ var ANIME = {
                 key = ep_unique + ':' + source;
 
             storage.get( key, function(obj) {
-                if( UTILITY.is_object_empty(obj) ) {
-                    // 没有本地数据时将链接重置
-                    self.attr({
-                        'class' : '',
-                        'href'  : '*థ౪థ 液！'
-                    }).data('msg', '');
-                } else {
+                // 先把链接重置
+                self.attr({
+                    'class' : '',
+                    'href'  : '*థ౪థ 液！',
+                }).removeAttr('msg');
+
+                if( !UTILITY.is_object_empty(obj) ) {
                     // 如果有本地数据就填进去
                     var _class = '',
                         _href = '*థ౪థ 液！',
@@ -127,21 +124,18 @@ var ANIME = {
                         // 如果最后获取时间减去首播时间不到resource_not_found_time_too_short，就判定是新番
                         // 此时提示重新获取
                         if( boardcast_time && ( last_get_time - boardcast_time < resource_not_found_time_too_short ) ) {
-                            _class += 'acgindex_msg_active';
-                            self.data('msg', TIP.RESOURCE_NOT_FOUND_RETRY);
+                            self.attr('msg', TIP.RESOURCE_NOT_FOUND_RETRY);
                         } 
                         // 否则认为是旧番，正常显示“没有找到资源”
                         else {
-                            _class += 'acgindex_msg_active acgindex_disabled';
-                            self.data('msg', TIP.RESOURCE_NOT_FOUND);
+                            self.attr('msg', TIP.RESOURCE_NOT_FOUND).disable();
                         }
                     } else {
                         // 找到了资源的情况
                         // 先判断是否需要登录
                         if( data[0] == 'x' ) {
                             data = data.substr(1);
-                            self.data('msg', TIP.RESOURCE_NEED_LOGIN);
-                            _class = 'acgindex_msg_active ';
+                            self.attr('msg', TIP.RESOURCE_NEED_LOGIN);
                         }
                         _href = SOURCES['anime'][source].url + data;
                         _class += 'acgindex_real_url';

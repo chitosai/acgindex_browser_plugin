@@ -80,3 +80,17 @@ var STORAGE = {
 			storage.set(obj);
 	}
 }
+
+
+/**
+ * 增加一些jquery方法
+ * 
+ */
+$.fn.disable = function() {
+	$(this).addClass('acgindex_disabled');
+	return $(this);
+}
+$.fn.enable = function() {
+	$(this).removeClass('acgindex_disabled');
+	return $(this);
+}
