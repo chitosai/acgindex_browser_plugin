@@ -87,10 +87,9 @@ var GROUP = {
             pid = $(this).attr('acgindex_page_id');
             if( !pid || pid == '' || pid == GROUP.pid )
                 return false;
-        } else {
-            pid = parseInt(pid);
         }
-
+        pid = parseInt(pid);
+        
         // 换页面
         $('.acgindex_page').hide();
         $('.acgindex_page[acgindex_page_id=' + pid + ']').show();
@@ -145,6 +144,7 @@ var GROUP = {
         }
 
         // 翻到下一页
+        console.log(typeof pid)
         $('<a>').attr({
             'href': '(´･ω･`)', 
             'acgindex_page_id': pid < total ? pid + 1 : total
