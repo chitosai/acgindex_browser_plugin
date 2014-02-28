@@ -3,7 +3,7 @@
 
   "name": "Bangumi资源插件",
   "description": "*థ౪థ 液！",
-  "version": "1.65",
+  "version": "1.7",
 
   "permissions": [
   	"tabs",
@@ -26,12 +26,9 @@
   },
   "content_scripts":[{
   	"matches":[
-  		"http://bgm.tv/",
-  		"http://bangumi.tv/",
-  		"http://chii.in/",
-      "http://bgm.tv/subject/*",
-      "http://bangumi.tv/subject/*",
-      "http://chii.in/subject/*"
+  		"http://bgm.tv/*",
+  		"http://bangumi.tv/*",
+  		"http://chii.in/*"
   	],
   	"js":[
   		"js/jquery.min.js",
@@ -39,6 +36,7 @@
       "js/utility.js",
       "js/anime.js",
       "js/music.js",
+      "js/group.js",
   		"js/main.js"
   	],
   	"run_at": "document_idle"

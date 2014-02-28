@@ -6,7 +6,7 @@
 	body{
 		width: 200px;
 		font-size: 12px;
-		padding: 0;
+		padding: 0 10px;
 		margin: 0;
 	}
 	img{
@@ -20,31 +20,82 @@
 		font-size: 14px;
 		line-height: 2.5;
 		text-align: center;
-		margin: 0;
+		margin: 0 0 20px;
 		padding: 0;
 	}
+	h2{
+		border-left: 4px solid #ff5959;
+		color: #404040;
+		font-size: 14px;
+		line-height: 1;
+		text-indent: 5px;
+		margin: 5px 0 10px;
+	}
 	p{
-		margin: 5px;
-		line-height: 2.2;
+		color: #777;
+		margin: 5px 5px 5px 9px;
+		line-height: 1.7;
+	}
+	hr{
+		border-color: #aaa;
+	}
+	.group{
+		margin-bottom: 15px;
 	}
 	#storage-clear{
 		background: -webkit-linear-gradient(top, #f3f3f3, #e8e8e8);
 		border: 1px solid #ccc;
 		border-radius: 2px;
 		box-shadow: inset 0 1px 0 #fff;
-		color: #777;
+		color: #404040;
 		float: right;
 	}
 	#storage-clear:hover{
 		border-color: #999;
-		color: #555;
+		color: #000;
+	}
+	input{
+		margin: 0;
+		vertical-align: middle;
+		margin-right: 5px;
 	}
 	</style>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/define.js"></script>
+	<script src="js/utility.js"></script>
 	<script src="js/about.js"></script>
 </head>
 <body>
 	<img src="image/icon.jpg" alt="*థ౪థ 液！">
-	<h1>ACGINDEX for Bangumi</h1>
-	<p>已缓存: <b id="storage-usage"></b><button id="storage-clear">清除缓存</button></p>
+	<h1>Bangumi 资源插件</h1>
+	<div class="group">
+		<h2>资源缓存</h2>
+		<p>已缓存: <b id="storage-usage"></b><button id="storage-clear">清除缓存</button></p>
+	</div>
+	<div class="group">
+		<h2>小组讨论</h2>
+		<p>
+			<label>
+				<input type="checkbox" id="group_pager_enable" checked>开启小组讨论分页
+			</label>
+		</p>
+		<p>
+			每页评论数：
+			<input type="number" value="20" min="10" max="99" id="group_pager_comments_per_page" master="group_pager_enable">
+		</p>
+		<p>
+			<label>
+				排序方式：
+				<select id="group_pager_order_by" master="group_pager_enable">
+					<option value="desc" default>按回复时间倒序</option>
+					<option value="asc">按回复时间正序</option>
+				</select>
+			</label>
+		</p>
+	</div>
+	<div class="group">
+		<h2>吐槽与建议？</h2>
+		<p>请通过<a href="http://weibo.com/chitosai" target="_blank">微博</a>或者<a href="http://bgm.tv/user/thec" target="_blank">Bangumi</a>私信我，我会尽快回复的，液！*థ౪థ</p>
+	</div>
 </body>
 </html>

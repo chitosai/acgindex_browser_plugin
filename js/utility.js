@@ -97,6 +97,8 @@ var STORAGE = {
 }
 
 
+
+
 /**
  * 增加一些jquery方法
  * 
@@ -109,3 +111,13 @@ $.fn.enable = function() {
 	$(this).removeClass('acgindex_disabled');
 	return $(this);
 }
+$.fn.pop = function() {
+    var top = this.get(-1);
+    this.splice(this.length-1,1);
+    return $(top);
+};
+$.fn.shift = function() {
+    var bottom = this.get(0);
+    this.splice(0,1);
+    return $(bottom);
+};

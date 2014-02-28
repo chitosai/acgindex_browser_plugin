@@ -3,6 +3,7 @@ var acgindex_link = null,
     acgindex_id   = chrome.runtime.id;
 
 var storage = chrome.storage.local;
+var config  = chrome.storage.sync;
 
 // 新番播出后多少时间内提示“可能还没有资源”- 48小时
 var resource_not_found_time_too_short = 1000 * 3600 * 48;
@@ -62,3 +63,11 @@ var SOURCES = {
         }
     }   
 }
+
+// 默认设置
+var default_config = {
+    'group_pager_enable'            : true,
+    'group_pager_comments_per_page' : 20,
+    'group_pager_order_by'          : 'asc'
+}
+var CONFIG;
