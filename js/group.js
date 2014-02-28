@@ -22,7 +22,9 @@ var GROUP = {
             if( hash != '' ) {
                 var comment = $('#' + hash);
                 if( comment.length ) {
-                    var pid = comment.parent().attr('acgindex_page_id');
+                    // 获取高亮评论所在页的pid
+                    pid = comment.parents().filter('.acgindex_page').attr('acgindex_page_id');
+
                     // 翻到高亮评论所在页
                     GROUP.page(pid);
 
