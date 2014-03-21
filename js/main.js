@@ -17,9 +17,14 @@ config.get('user-config', function(data) {
     }
 
     // 根据页面类型调用相关方法...
-    var page_type = $('#navMenuNeue .focus').attr('href');
+    var page_flag = $('#navMenuNeue .focus');
+    if( page_flag.length ) {
+        page_type = page_flag.attr('href');
+    } else {
+        page_type = '/home'
+    }
     switch(page_type) {
-        case '/' : ANIME.init('home'); break;
+        case '/home'  : ANIME.init('home'); break;
         case '/anime' : ANIME.init('subject'); break;
         case '/music' : MUSIC.init(); break;
         case '/group' : GROUP.init(); break;
