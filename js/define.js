@@ -1,5 +1,5 @@
 var acgindex_link = null,
-    acgindex_core = 'http://acgindex.us/haruka/',
+    acgindex_core = 'http://acgindex.us/bangumi/',
     acgindex_id   = chrome.runtime.id;
 
 var storage = chrome.storage.local;

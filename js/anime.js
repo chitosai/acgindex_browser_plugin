@@ -157,11 +157,7 @@ var ANIME = {
     'get' : function() {
         var self = $(this), 
             source = self.attr('source'),
-            request_data = $.param({
-            'b'      : acgindex_link.data('bid'),
-            'e'      : acgindex_link.data('eid'),
-            'source' : source
-        });
+            request_data = [acgindex_link.data('bid'), acgindex_link.data('eid'), source];
 
         // 先确认是否可点
         if(self.hasClass('acgindex_global_disabled')) return false;
@@ -172,7 +168,7 @@ var ANIME = {
         self.removeAttr('msg');
 
         $.ajax({
-            'url': acgindex_core + request_data, 
+            'url': acgindex_core + request_data.join('/'), 
             'timeout': 5000, 
             'beforeSend': function() {
                 self.addClass('acgindex_loading');
@@ -238,6 +234,12 @@ var ANIME = {
                         UTILITY.show_msg( return_msg, return_msg === TIP.RESOURCE_FOUND ? 2000 : 4000 );
 
                     } else {
+                        // 需要登录提示
+                        if( source == 'bili' && value[0] == 'x' ) {
+                            value = value.substr(1);
+                            self.attr('msg', TIP.RESOURCE_NEED_LOGIN);
+                        }
+
                         // 找到了资源的情况
                         var url = SOURCES['anime'][source].url + value;
 
@@ -246,10 +248,6 @@ var ANIME = {
                             'class'  : 'acgindex_real_url'
                         });
                         return_msg = TIP.RESOURCE_FOUND;
-
-                        // 附上需要登录提示
-                        if( source == 'bili' && value[0] == 'x' ) 
-                            self.attr('msg', TIP.RESOURCE_NEED_LOGIN);
                     }
                     // 正常状态可以保存下来
                     var obj = {};
