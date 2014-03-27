@@ -10,7 +10,6 @@ var MUSIC = {
     'init' : function() {
         MUSIC.init_album();
         MUSIC.init_single();
-        // MUSIC.load_resource();
     },
 
     /*
@@ -98,119 +97,5 @@ var MUSIC = {
             acgindex.append(acgindex_link);
             self.children('cite').append(acgindex);
         });
-    },
-
-    /*
-     * 从本地缓存读取资源
-     * 
-     */
-    'load_resource' : function() {
-        $('.acgindex_link a').each(function() {
-            var self = $(this),
-                url = '',
-                ep_unique = self.data('ep-unique');
-
-            storage.get( ep_unique, function(obj) {
-                if( UTILITY.is_object_empty(obj) ) {
-                    // 没有本地数据时就发起ajax查询
-                    MUSIC.get_resource(self);
-                } else {
-                    url = obj[ep_unique]['value'];
-                    // 修改资源链接
-                    if( url != '-1' ) {
-                        self.attr('href', url);
-                    } else {
-                        self.addClass('acgindex_disabled');
-                    }
-                }
-            });
-        });
-    },
-
-    /*
-     * ajax查询资源
-     * 
-     */
-    'get_resource' : function(self) {
-        // 调用每种资源站各自的查询函数
-        switch(self.attr('source')) {
-            case 'moefm' : MUSIC.get_from_moefm(self); break;
-            case 'xiami' : MUSIC.get_from_xiami(self); break;
-            case 'baidu' : MUSIC.get_from_baidu(self); break;
-        }
-    },
-
-    /*
-     * 搜索萌否电台
-     * 
-     */
-    'get_from_moefm' : function(self) {
-        var api = self.data('api'),
-            query = self.data('bgmid'),
-            ep_unique = self.data('ep-unique');
-
-        // 5秒超时。就算查不到也没有任何影响，所以不处理任何error情况
-        $.ajax({
-            'url'     : api + query,
-            'timeout' : 5000,
-            'type'    : 'json',
-            'success' : function(json) {
-                var data = json['response'],
-                    obj = {};
-
-                // 根据返回值修改资源链接
-                if( data['has_mp3'] == true ) {
-                    self.attr('href', data['url']);
-                    obj['value'] = data['url'];
-                } else {
-                    self.addClass('acgindex_disabled');
-                    obj['value'] = '-1';
-                }
-
-                // 储存结果到本地
-                STORAGE.save( ep_unique, obj );
-            }
-        });
-    },
-
-    /*
-     * 搜索虾米
-     * 
-     */
-    'get_from_xiami' : function(self) {
-        var api = self.data('api'),
-            query = self.data('music-title'),
-            ep_unique = self.data('ep-unique');
-
-        // 5秒超时。就算查不到也没有任何影响，所以不处理任何error情况
-        $.ajax({
-            'url'     : api + query,
-            'timeout' : 5000,
-            'success' : function(html) {
-                var pattern = /loc = \"(.+?)\"/g,
-                    match = pattern.exec(html),
-                    obj = {};
-
-                // 根据返回值修改资源链接
-                if( match ) {
-                    self.attr('href', match[1]);
-                    obj['value'] = match[1];
-                } else {
-                    self.addClass('acgindex_disabled');
-                    obj['value'] = '-1';
-                }
-
-                // 储存结果到本地
-                STORAGE.save( ep_unique, obj );
-            }
-        });
-    },
-
-    /*
-     * 搜索百度
-     * 
-     */
-    'get_from_baidu' : function(self) {
-
     }
 }

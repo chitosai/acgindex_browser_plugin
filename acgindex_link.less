@@ -122,6 +122,9 @@
         &[source=baidu]::before{
             background-image: url('image/baidu.png');
         }
+        &[source=netease]::before{
+            background-image: url('image/netease.png');
+        }
     }
 }
 
@@ -147,20 +150,15 @@
         }
         a{
             margin: 0 3px 0 0;
-            &[source=moefm]{
-                margin-right: 2px;
-            }
         }
     }
 }
 .acgindex_music_single{
     display: inline-block;
     a{
-        margin: 0 2px 3px 0;
-        vertical-align: bottom;
-        &[source=moefm]{
-            margin-right: 1px;
-        }
+        margin: 0 2px 0 0;
+        position: relative;
+        top: 2px;
     }
 }
 #columnInSubjectA .acgindex_music_single a{
