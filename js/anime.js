@@ -45,8 +45,17 @@ var ANIME = {
         }
         acgindex_link.appendTo(acgindex);
 
-        // 把获取地址的链接插入cluetip悬浮层
-        $('#cluetip-outer').append(acgindex);
+
+        // 自从bangumi使用了rocket script，现在必须等cluetip异步加载完才能插入了
+        var insert_acgindex_layer = setInterval(function(){
+            var cluetip = $('#cluetip-outer');
+            if( cluetip.length ) {
+                // 把获取地址的链接插入cluetip悬浮层
+                $('#cluetip-outer').append(acgindex);
+                clearInterval(insert_acgindex_layer);
+            }
+        }, 300);
+        
     },
 
     /*
