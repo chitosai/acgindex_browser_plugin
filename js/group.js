@@ -8,6 +8,14 @@ var GROUP = {
     'pid' : 0,
 
     'init' : function() {
+        // 先缓存一下评论列表
+        GROUP.cl = $('#comment_list');
+        GROUP.init_pager();
+        GROUP.init_quick_reply();
+    },
+
+    // 初始化评论分页
+    'init_pager' : function() {
         if( CONFIG.group_pager_enable ) {
             // 去掉那个滑动条
             $('#sliderContainer').remove();
@@ -41,7 +49,7 @@ var GROUP = {
 
     // 强行给评论分页
     'divide_comments' : function() {
-        var cl = $('#comment_list > .row_reply'),
+        var cl = GROUP.cl.children('.row_reply'),
             new_cl = $('<div>').attr('id', 'comment_list'),
             total_page = 0;
 
@@ -146,7 +154,6 @@ var GROUP = {
         }
 
         // 翻到下一页
-        console.log(typeof pid)
         $('<a>').attr({
             'href': '(´･ω･`)', 
             'acgindex_page_id': pid < total ? pid + 1 : total
@@ -187,5 +194,103 @@ var GROUP = {
             var y = $('#acgindex_pager_1').offset().top - 150;
             $('body, html').animate({'scrollTop' : y});
         }
+    },
+
+    // 初始化快速回复
+    'init_quick_reply' : function() {
+        var cl = GROUP.cl.find('.row_reply'),
+            slash = $('<span>').text(' / ');
+
+        // 创建按钮
+        cl.each(function(){
+            var self = $(this).children('.re_info').children('small');
+            slash.clone().appendTo(self);
+            $('<a>').text('+1').addClass('acgindex_quick_reply').attr('href', 'Hdaisuki').appendTo(self);
+            slash.clone().appendTo(self);
+            $('<a>').text('赞').addClass('acgindex_quick_reply').attr('href', 'Hdaisuki').appendTo(self);
+        });
+
+        // 绑定事件
+        GROUP.cl.on('click', '.acgindex_quick_reply', function(){
+            // 触发回复事件
+            GROUP.quick_reply(this);
+
+            // 刷新页面前不允许重复回复同一楼层
+            var tip = '你已经 ' + $(this).text() + ' 过了';
+            $(this).removeClass('acgindex_quick_reply').css('color', '#ccc').removeAttr('href').attr('title', tip);
+
+            return false;
+        })
+    },
+
+    // 快速回复
+    'quick_reply' : function(dom) {
+        // 快速回复本体需要4个参数，可以从DOM中读取出来
+        var params_source = $(dom).parents().filter('.row_reply').find('.icons_cmt').attr('onclick');
+        // 正则提取一下参数
+        var match = /subReply\('\w+',(\d+),(\d+),\d+,(\d+),(\d+),\d+\)/.exec(params_source);
+
+        // 验证用的另外2个参数
+        var formhash = $('input[name=formhash]').val(),
+            lastview = $('input[name=lastview]').val();
+
+        // 检查是否正确取到参数
+        if( !match || !formhash || !lastview ) {
+            alert('参数错误！');
+            return false;
+        }
+
+        // 包装参数
+        var params = {
+            'topic_id'      : match[1],
+            'related'       : match[2],
+            'sub_reply_uid' : match[3],
+            'post_uid'      : match[4],
+            'related_photo' : 0,
+            'submit'        : 'submit',
+            'formhash'      : formhash,
+            'lastview'      : lastview,
+            'content'       : $(dom).text() + '[size=0]+1[/size]',
+        }
+
+        // 提交
+        $.post('/group/topic/' + params['topic_id'] + '/new_reply?ajax=1', $.param(params), function(data){
+            // 手动添加一个回复
+            GROUP.add_reply(dom, data['posts']['sub'][params['related']][0], true);
+        }, 'json');
+    },
+
+    // 插入一个新回复
+    'add_reply' : function(dom, data, collapsed) {
+        // 找到插入新回复的位置
+        var parent = $(dom).parents().filter('.row_reply').find('.topic_sub_reply');
+
+        // 生成新回复DOM结构
+        var reply = $('<div>').addClass('sub_reply_bg clearit').attr('id', 'post_' + data['pst_id']);
+        if( collapsed ) reply.addClass('sub_reply_collapse');
+        // 回复时间
+        $('<div>').addClass('re_info').append($('<small>').text(data['dateline'])).appendTo(reply);
+        // 用户头像
+        var user_home = 'http://' + document.location.host + '/' + data['username'];
+        $('<a>').addClass('avatar').attr('href', user_home)
+                .append(
+                    $('<img>').addClass('avatar ll').attr('src', data['avatar'])
+                )
+                .appendTo(reply);
+        // 回复内容
+        $('<div>').addClass('inner').append(
+            $('<strong>').addClass('userName')
+                         .append(
+                            $('<a>').attr({
+                                'id' : data['pst_id'],
+                                'href' : user_home,
+                                'class' : 'l'
+                            }).text(data['nickname'])
+                        )
+        ).append(
+            $('<div>').addClass('cmt_sub_content').html('&nbsp;' + data['pst_content'])
+        ).appendTo(reply);
+        // 插入DOM
+        parent.append(reply);
     },
 }
