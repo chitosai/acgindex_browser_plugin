@@ -1,4 +1,4 @@
-var acgindex_link = null,
+﻿var acgindex_link = null,
     acgindex_core = 'http://acgindex.us/bangumi/',
     acgindex_id   = chrome.runtime.id;
 
@@ -25,7 +25,7 @@ var SOURCES = {
     'anime' : {
         'bili' : {
             'title' : 'bilibili在线观看',
-            'url'   : 'http://www.bilibili.tv/video/av'
+            'url'   : 'http://www.bilibili.com/video/av'
         },
         'bt':{
             'title' : 'BT下载',
