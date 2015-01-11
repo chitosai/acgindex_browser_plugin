@@ -97,7 +97,9 @@ var ANIME = {
         // 例： bgmid = 77706 
         // 第一格实际话数为 26，因此 epid = epid - 26 + 1
         var ep_revise = parseInt(a.parent().parent().children(':first').children().text());
-        if( ep_revise != 1 ) epid = parseInt(epid) - ep_revise + 1;
+        // 正篇之后还有SP，SP话数是单独从01话开始计数的，所以这里判断一下，epid小于ep_revise的应该是SP，不要减去ep_revise
+        if( ep_revise != 1 && ep_revise < epid) 
+            epid = parseInt(epid) - ep_revise + 1;
 
         // 把这些数据写到acgindex_link的DOM上
         acgindex_link.data({'bid': bgmid, 'eid': epid});
