@@ -21,7 +21,7 @@ var MUSIC = {
         var acgindex = $('<div>').addClass('acgindex_music');
         // 资源链接所在div
         var acgindex_link = $('<div>').addClass('acgindex_link');
-        $('<span>').text('试听：').appendTo(acgindex_link);
+        // $('<span>').text('试听：').appendTo(acgindex_link);
 
         // 专辑标题
         var music_title = $('.nameSingle a').text();
@@ -45,9 +45,15 @@ var MUSIC = {
             }).appendTo(acgindex_link);
         }
 
-        // 插入！
+        // 定位
+        var title = $('.nameSingle'),
+            x = title.offset().left + title.children('a').width() + 10,
+            y = title.offset().top + 3;
+        acgindex.css({'left': x, 'top': y, 'position': 'absolute'});
+
+        // 插入
         acgindex.append(acgindex_link);
-        $('.nameSingle').after(acgindex);
+        title.after(acgindex);
     },
 
     /*
