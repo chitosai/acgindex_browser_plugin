@@ -27,10 +27,10 @@ var SOURCES = {
             'title' : 'bilibili在线观看',
             'url'   : 'http://www.bilibili.com/video/av'
         },
-        'bt':{
-            'title' : 'BT下载',
-            'url'   : 'http://bt.ktxp.com'
-        }
+        // 'bt':{
+        //     'title' : 'BT下载',
+        //     'url'   : 'http://bt.ktxp.com'
+        // }
     },
     'music_album': {
         'xiami' : {
